@@ -1,0 +1,10 @@
+package hashMapCSV;
+
+public class MergeHashMap {
+	Map<String, String[]> map1 = new Hashmap
+
+	public mergeHashMap() {
+		// TODO Auto-generated constructor stub
+	}
+
+}

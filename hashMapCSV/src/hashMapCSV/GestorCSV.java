@@ -1,0 +1,123 @@
+package hashMapCSV;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+
+import hashMapCSV.Usuario;
+import hashMapCSV.MergeHashMap;
+import validator.*;
+
+public class GestorCSV {
+
+        public static void csvToHashMap (String data, Map<String, String[]> data1 ) {
+        	try (BufferedReader br = new BufferedReader(new FileReader(data))) {
+        	      // Lee la primera línea (que se supone contiene los nombres de las columnas)
+        	      String[] header = br.readLine().split(";");
+
+        	      // Lee las líneas restantes del archivo
+        	      String line;
+        	      while ((line = br.readLine()) != null) {
+        	        // Divide la línea en sus elementos (separados por comas)
+        	        String[] elements = line.split(";");
+
+        	        // Agrega los elementos al mapa usando como clave el primer elemento
+        	        data1.put(elements[0], elements );
+        	      }
+        	    } catch (Exception e) {
+        	      // Imprime un mensaje de error si ocurre algún problema al leer el archivo
+        	      System.out.println("Error al leer el archivo: " + e.getMessage());
+        	    }
+
+        	    /* Imprime los elementos del mapa
+        	    for (String key : data1.keySet()) {
+        	      String[] elements = data1.get(key);
+
+        	      System.out.println("Clave: " + key);
+        	      System.out.println("Email: " + elements[0]);
+        	      System.out.println("Password: " + elements[1]);
+        	      System.out.println("Usuario: " + elements[2]);
+        	      System.out.println("Password: " + elements[3]);
+        	    }*/
+        }
+	
+        public static void writeToCSV(String[] data, String csvPath) {
+        	
+        	try {
+        		//Con true, se va a agregar contenido al final del archivo
+        		FileWriter fw = new FileWriter(csvPath, true);
+        		PrintWriter pw = new PrintWriter(fw);
+        		
+        		pw.println("\n" + data);
+        		pw.close();
+        	} catch(Exception e) {
+        		e.printStackTrace();
+        	}
+        }
+	
+        
+        
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Usuario user = new Usuario(	EmailGenerator.generateMail(),
+									PasswordGenerator.getPassword(),
+									UsernameGenerator.getUsername(),
+									PhoneGenerator.getPhoneNumber(),
+									ZipCodeGenerator.getZipCode(),
+									DniGenerator.getDNI());
+		String filePath1 = "C:/Users/amariscalr/Desktop/INDRA/Formación Talent Camp/GT1 Java/hashMapCSV/csv1.csv";
+		String filePath2 = "C:/Users/amariscalr/Desktop/INDRA/Formación Talent Camp/GT1 Java/hashMapCSV/csv2.csv";
+		
+		String newLine1[] = {user.getEmail(),user.getPassword(),user.getUsername(),user.getPhoneNumber()};
+		String newLine2[] = {user.getZipCode(),user.getDni(),user.getPhoneNumber()};
+		
+		Map<String, String[]> data1 = new HashMap<>();
+		Map<String, String[]> data2 = new HashMap<>();
+		
+		//Escribimos datos en el CSV
+		writeToCSV(newLine1,filePath1);
+		writeToCSV(newLine2, filePath2);
+		
+		//Guardamos los datos de los CSV en HashMaps
+		csvToHashMap(filePath1, data1);
+		csvToHashMap(filePath2, data1);
+		
+		//Juntamos ambos HashMap con las coincidencias de phoneNumber
+		Map<String, String[]> mergedMap = MergeHashMap.mergeMaps(data1, data2);
+		
+
+		//ORDENAR POR USUARIO
+			//Lista de claves del hashmap
+		List<String> keys = new ArrayList<>(mergedMap.keySet());
+			//Ordenamos la lista de claves
+		Collections.sort(keys, new MyComparator(mergedMap));
+			//Recorremos la lista de claves ordenada y crea un nuevo hashmap
+		Map<String, String[]> sortedMap = new LinkedHashMap<>();
+		for (String key: keys) {
+			sortedMap.put(key, mergedMap.get(key));
+			
+		}
+		
+		//MOSTRAMOS EL MAPA ORDENADO
+		for(Map.Entry<String, String[]> entry : sortedMap.entrySet()) {
+			String key = entry.getKey();
+			String[] values = entry.getValue();
+			System.out.println(key + ":" + Arrays.toString(values));
+		}
+		
+		
+		
+		
+	}
+
+}

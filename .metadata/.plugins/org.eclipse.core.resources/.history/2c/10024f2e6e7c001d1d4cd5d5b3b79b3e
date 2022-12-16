@@ -1,0 +1,18 @@
+package hashMapCSV;
+
+public class Usuario {
+	
+	String email;
+	String username;
+	String password;
+	String phoneNumber;
+	String zipCode;
+	String 
+	
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

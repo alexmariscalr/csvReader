@@ -1,0 +1,4 @@
+INDEX VERSION 1.131+C:\Users\amariscalr\Desktop\INDRA\Formación Talent Camp\GT1 Java\.metadata\.plugins\org.eclipse.jdt.core
+392467841.index
+1865797976.index
+391913826.index

@@ -1,0 +1,40 @@
+package hashMapCSV;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.HashMap; 
+import java.util.Scanner;
+
+public class GestorCSV {
+
+		public static String filePath1 = "C:/Users/amariscalr/Desktop/INDRA/Formación Talent Camp/GT1 Java/hashMapCSV/csv1.csv\"";
+		public static String filePath2 = "C:/Users/amariscalr/Desktop/INDRA/Formación Talent Camp/GT1 Java/hashMapCSV/csv2.csv";
+		public static HashMap<String, String> map = new HashMap<>();
+
+        
+        public static void CsvToHashMap (String csvPath, HashMap<String, String> map ) {
+            Scanner sc = null;         
+            try {
+            	sc = new Scanner(new File(csvPath));
+            	while (sc.hasNextLine()) {
+            		String[] line = sc.nextLine().split(",");
+            		map.put(line[0], line[1]);
+            	}
+            	for (String key: map.keySet()) {
+            		System.out.println(key + ":" + map.get(key));
+            	}
+            } catch (FileNotFoundException e) {
+            	e.printStackTrace();
+            } finally {
+            	if (sc!=null) {
+            		sc.close();
+            	}
+            }
+        }
+	
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		CsvToHashMap (filePath1,map);
+	}
+
+}

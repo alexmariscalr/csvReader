@@ -1,0 +1,44 @@
+package clase9dic.Generators;
+
+import java.util.Random;
+
+public class ZipCodeGenerator {
+	static int numDigitos = 5;
+	static int provinces = 52;
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		System.out.println(getZipCode());
+
+	}
+	
+	public static String getZipCode() {
+		
+		String zipCode = "";
+		zipCode += getProvince();
+		
+		for (int i=0 ; i<(numDigitos-zipCode.length()+2); i++) {
+			Random numAleatorio = new Random();
+			zipCode += String.valueOf(numAleatorio.nextInt(10));
+		}
+		
+		return zipCode;
+	}
+	
+	public static String getProvince() {
+		Random numAleatorio = new Random();
+		String province = "";
+		int num = (int) numAleatorio.nextInt(provinces) + 1;
+		if (num < 10) {
+			province = "0" + String.valueOf(num); 
+		}
+		else  {
+			province = String.valueOf(num);
+		}
+		
+		return province;
+	}
+	
+
+
+}

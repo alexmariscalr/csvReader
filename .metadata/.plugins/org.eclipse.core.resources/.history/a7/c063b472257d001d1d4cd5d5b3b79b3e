@@ -1,0 +1,16 @@
+package hashMapCSV;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class MergeHashMap {
+
+	public MergeHashMap() {
+
+	}
+	
+	public Map<String, String[]> mergeMaps (Map<String, String[]> map1, Map<String, String[]> map2) {
+		Map<String, String[]> mergedMap = new HashMap<>();
+	}
+
+}
